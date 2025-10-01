@@ -1,174 +1,166 @@
-// script.js
-
 document.addEventListener("DOMContentLoaded", () => {
-  // --- ELEMENTOS DEL SISTEMA DE PUBLICACIONES ---
-  const fileInput = document.getElementById("fileInput");
-  const descriptionInput = document.getElementById("description");
-  const hashtagInput = document.getElementById("hashtag");
-  const uploadButton = document.getElementById("uploadButton");
-  const postsContainer = document.getElementById("posts");
-  const filterInput = document.getElementById("filterInput");
-  const preview = document.getElementById("preview");
+    // Expresiones regulares
+    const usernameRegex = /^[a-zA-Z0-9_]{4,15}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/;
 
-  // --- ELEMENTOS DEL HEADER ---
-  const menuToggle = document.getElementById("menu-toggle");
-  const navLinks = document.getElementById("nav-links");
+    // Funciones para mostrar y ocultar errores
+    const showError = (elementId, message) => {
+        const el = document.getElementById(elementId);
+        if (el) {
+            el.textContent = message;
+            el.style.display = "block";
+        }
+    };
+    const hideError = (elementId) => {
+        const el = document.getElementById(elementId);
+        if (el) {
+            el.textContent = "";
+            el.style.display = "none";
+        }
+    };
 
-  // --- ELEMENTOS DE SERVICIOS ---
-  const btnAdmin = document.querySelector(".btn-enviar");
-  const btnAdscrip = document.querySelector(".btn-consulta");
-  const btnSoporte = document.querySelector(".ayuda button");
+    // =======================
+    // LÓGICA REGISTRO
+    // =======================
+    
+    const registerForm = document.getElementById("registerForm");
+    if (registerForm) {
+        registerForm.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-  let posts = [];
+            const user = document.getElementById("registerUsername").value.trim().toLowerCase();
+            const pass = document.getElementById("registerPassword").value;
+            const confirmPass = document.getElementById("registerConfirmPassword").value;
+            let isValid = true;
 
-  // ========== FUNCIONES DE PUBLICACIONES ==========
+            hideError("registerUsernameError");
+            hideError("registerPasswordError");
 
-  // Previsualizar imagen
-  if (fileInput) {
-    fileInput.addEventListener("change", () => {
-      preview.innerHTML = "";
-      const file = fileInput.files[0];
-      if (file) {
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.style.maxWidth = "200px";
-        img.style.borderRadius = "8px";
-        img.onload = () => URL.revokeObjectURL(img.src); // liberar memoria
-        preview.appendChild(img);
-      }
-    });
-  }
+            // Recuperar lista de usuarios existentes
+            let users = JSON.parse(localStorage.getItem("users")) || [];
 
-  // Subir publicación
-  if (uploadButton) {
-    uploadButton.addEventListener("click", () => {
-      const file = fileInput.files[0];
-      const description = descriptionInput.value.trim();
-      const hashtag = hashtagInput.value.trim();
+            // Validar campos vacíos
+            if (!user || !pass || !confirmPass) {
+                showError("registerUsernameError", "Todos los campos son obligatorios.");
+                isValid = false;
+            }
 
-      if (!file || !description) {
-        alert("Por favor, sube una imagen y escribe una descripción.");
-        return;
-      }
+            // Validar username
+            if (!usernameRegex.test(user)) {
+                showError("registerUsernameError", "Usuario: 4-15 caracteres válidos (letras, números o _).");
+                isValid = false;
+            }
 
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const post = {
-          img: e.target.result,
-          description: description,
-          hashtags: [...extractHashtags(description), ...(hashtag ? [hashtag] : [])]
-        };
-        posts.unshift(post);
-        renderPosts(posts);
-        resetForm();
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+            // Validar si el usuario ya existe
+            if (users.some(u => u.username === user)) {
+                showError("registerUsernameError", "Este nombre de usuario ya está registrado.");
+                isValid = false;
+            }
 
-  // Extraer hashtags de la descripción
-  function extractHashtags(text) {
-    return text.match(/#\w+/g) || [];
-  }
+            // Validar contraseña
+            if (!passwordRegex.test(pass)) {
+                showError("registerPasswordError", "Contraseña: 8-20 caracteres, mayúsculas, minúsculas, número y símbolo.");
+                isValid = false;
+            }
 
-  // Renderizar publicaciones
-  function renderPosts(postsToRender) {
-    postsContainer.innerHTML = "";
-    postsToRender.forEach((post, index) => {
-      const postEl = document.createElement("div");
-      postEl.classList.add("post");
-      postEl.innerHTML = `
-        <img src="${post.img}" alt="Publicación" />
-        <p>${sanitizeHTML(post.description)}</p>
-        <p class="hashtags">${post.hashtags.join(" ")}</p>
-        <button class="delete-btn" data-index="${index}">🗑️ Eliminar</button>
-      `;
-      postsContainer.appendChild(postEl);
-    });
+            // Confirmar contraseña
+            if (pass !== confirmPass) {
+                showError("registerPasswordError", "Las contraseñas no coinciden.");
+                isValid = false;
+            }
 
-    // Botón eliminar
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        const index = e.target.dataset.index;
-        posts.splice(index, 1);
-        renderPosts(posts);
-      });
-    });
-  }
+            // Guardar usuario si todo es válido
+            if (isValid) {
+                users.push({ username: user, password: pass });
+                localStorage.setItem("users", JSON.stringify(users));
+                alert("Registro exitoso. Ahora puedes iniciar sesión.");
+                window.location.href = "index.html"; // Redirigir a login
+            }
+        });
 
-  // Filtrar por hashtag
-  if (filterInput) {
-    filterInput.addEventListener("input", () => {
-      const filter = filterInput.value.trim().toLowerCase();
-      if (!filter) {
-        renderPosts(posts);
-        return;
-      }
-      const filteredPosts = posts.filter(post =>
-        post.hashtags.some(h => h.toLowerCase().includes(filter))
-      );
-      renderPosts(filteredPosts);
-    });
-  }
+        // Mostrar/ocultar contraseña
+        const togglePasswordRegister = document.getElementById("togglePasswordRegister");
+        if (togglePasswordRegister) {
+            togglePasswordRegister.addEventListener("change", function () {
+                const pwd = document.getElementById("registerPassword");
+                const confirmPwd = document.getElementById("registerConfirmPassword");
+                pwd.type = this.checked ? "text" : "password";
+                confirmPwd.type = this.checked ? "text" : "password";
+            });
+        }
 
-  // Resetear formulario después de publicar
-  function resetForm() {
-    fileInput.value = "";
-    descriptionInput.value = "";
-    hashtagInput.value = "";
-    preview.innerHTML = "";
-  }
+        // Validación en vivo
+        const registerUsername = document.getElementById("registerUsername");
+        if (registerUsername) {
+            registerUsername.addEventListener("input", (e) => {
+                if (!usernameRegex.test(e.target.value.trim())) {
+                    showError("registerUsernameError", "Usuario: 4-15 caracteres válidos (letras, números o _).");
+                } else {
+                    hideError("registerUsernameError");
+                }
+            });
+        }
 
-  // Prevenir inyección de HTML
-  function sanitizeHTML(str) {
-    const temp = document.createElement("div");
-    temp.textContent = str;
-    return temp.innerHTML;
-  }
+        const registerPassword = document.getElementById("registerPassword");
+        if (registerPassword) {
+            registerPassword.addEventListener("input", (e) => {
+                if (!passwordRegex.test(e.target.value)) {
+                    showError("registerPasswordError", "Contraseña: 8-20 caracteres, mayúsculas, minúsculas, número y símbolo.");
+                } else {
+                    hideError("registerPasswordError");
+                }
+            });
+        }
+    }
 
-  // ========== FUNCIONES DE NAVEGACIÓN Y SERVICIOS ==========
+    // =======================
+    // LÓGICA LOGIN
+    // =======================
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-  // Menú hamburguesa (responsive)
-  if (menuToggle) {
-    menuToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("show");
-    });
-  }
+            const user = document.getElementById("loginUsername").value.trim().toLowerCase();
+            const pass = document.getElementById("loginPassword").value;
 
-  // Botón Administración → correo
-  if (btnAdmin) {
-    btnAdmin.addEventListener("click", () => {
-      window.location.href =
-        "mailto:Lucasbenitezlemos@gmail.com?subject=Soporte de Administración";
-    });
-  }
+            hideError("loginError");
 
-  // Botón Adscripción → WhatsApp
-  if (btnAdscrip) {
-    btnAdscrip.addEventListener("click", () => {
-      const numero = "59891234567"; // cámbialo por tu número real
-      const mensaje = "Hola, necesito consultar sobre Adscripción.";
-      window.open(`https://wa.me/59899239556${numero}?text=${encodeURIComponent(mensaje)}`, "_blank");
-    });
-  }
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const storedUser = users.find(u => u.username === user);
 
-  // Botón Soporte
-  if (btnSoporte) {
-    btnSoporte.addEventListener("click", () => {
-      alert("📩 Se abrirá tu cliente de correo para contactar al soporte.");
-      window.location.href =
-        "mailto:soporte@instituto.com?subject=Necesito asistencia técnica";
-    });
-  }
+            if (storedUser && storedUser.password === pass) {
+                alert("¡Inicio de sesión exitoso!");
+                window.location.href = "Page/home.html"; // Redirigir a home
+            } else {
+                showError("loginError", "Usuario o contraseña incorrectos.");
+            }
+        });
 
-  // Saludo dinámico
-  const welcomeText = document.querySelector(".welcome");
-  if (welcomeText) {
-    const hora = new Date().getHours();
-    let saludo = "¡Bienvenido/a!";
-    if (hora >= 6 && hora < 12) saludo = "☀️ Buenos días";
-    else if (hora >= 12 && hora < 19) saludo = "🌞 Buenas tardes";
-    else saludo = "🌙 Buenas noches";
-    welcomeText.textContent = `${saludo}, Usuario!`;
-  }
+        // Mostrar/ocultar contraseña login
+        const togglePasswordLogin = document.getElementById("togglePasswordLogin");
+        if (togglePasswordLogin) {
+            togglePasswordLogin.addEventListener("change", function () {
+                const pwd = document.getElementById("loginPassword");
+                pwd.type = this.checked ? "text" : "password";
+            });
+        }
+    }
 });
+const errorElements = [
+    "registerUsernameError",
+    "registerPasswordError",
+    "loginError"
+];
+
+errorElements.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.style.color = "red";
+    }
+});
+const loginError = document.getElementById("loginError");
+const loginButton = document.querySelector("#loginForm button[type='submit']");
+if (loginError && loginButton) {
+    loginButton.parentNode.insertBefore(loginError, loginButton);
+}
