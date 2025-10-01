@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(unnamed.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+}
+
+body {
+    animation: fadeIn 1s ease;
+}
+
+.wrapper {
+    animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.logo img {
+    animation: fadeIn 1.2s 0.2s backwards;
+}
+.logo img{
+    display: flex;
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+.logo img:hover {
+    transform: scale(1.08);
+    transition: transform 0.3s;
+}
+.wrapper {
+    width: 420px;
+    background: rgba(60, 60, 60, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    color: rgb(243, 243, 243);
+    padding: 30px 40px;
+    font-family: 'Anton', sans-serif;
+}
+
+.wrapper h1{
+    color: #FFFFFF; 
+    font-weight: bold;
+    text-align: center;
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); 
+    margin-bottom: 20px;
+    
+    }
+
+    .wrapper button {
+        width: 100%;
+        padding: 12px 0;
+        background: linear-gradient(90deg, #1aeedc 0%, #0e8b8b 100%);
+        color: #fff;
+        font-size: 1.2rem;
+        font-family: 'Anton', sans-serif;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .wrapper button:hover {
+        background: linear-gradient(90deg, #0e8b8b 0%, #1aeedc 100%);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 4px 16px rgba(26, 238, 220, 0.15);
+    }
+    .wrapper input[type="text"],
+    .wrapper input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        margin: 12px 0 18px 0;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 1.1rem;
+        font-family: 'Anton', sans-serif;
+        outline: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .wrapper input[type="text"]:focus,
+    .wrapper input[type="password"]:focus {
+        background: rgba(255,255,255,0.25);
+        box-shadow: 0 4px 16px rgba(26, 238, 220, 0.12);
+        color: #1aeedc;
+    }
+.wrapper a {
+    color: rgba(26, 238, 220, 0.808);
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

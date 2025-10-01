@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>UniDos</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <a href="home.html">
+        <img src="Logo2.0 (2).png" alt="Logo de UniDos"/>
+      </a>
+    </div>
+    <div class="Titulo">
+      <h1>UniDos por la Educación</h1>
+    </div>
+   <div class="userr">
+  <img src="user-image-with-black-background.png" alt="Avatar de usuario" class="user-avatar">
+  <span class="welcome">¡Bienvenido/a, Usuario!</span>
+</div>
+
+    <nav>
+      <div class="menu-toggle" id="menu-toggle" aria-label="Menú">&#9776;</div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="servicios.html">Servicios y Novedades</a></li>
+        <li><a href="#">Contactos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-container">
+    <aside class="menu-lateral">
+      <nav class="secciones">
+        <a href="#" class="menu-btn">📘 Cursos</a>
+        <a href="#" class="menu-btn">⭐ Guardado</a>
+      </nav>
+      <div class="ayuda">
+        <h2>Ayuda</h2>
+        <p>Si necesitas asistencia, contacta con soporte técnico.</p>
+        <button type="button">💬 Contactar Soporte</button>
+      </div>
+    </aside>
+
+    <section class="content">
+      <section class="upload-section">
+        <h2>📂 Subir Publicación</h2>
+        <p>Sube una imagen, agrega una descripción y un hashtag.</p>
+        <div class="upload-box">
+          <input type="file" id="fileInput" class="file-input" accept="image/*" />
+          <label for="fileInput" class="file-label">Elegir imagen</label>
+        </div>
+        <div id="preview" aria-live="polite"></div>
+        <textarea id="description" placeholder="Escribe una descripción..." rows="3"></textarea>
+        <input type="text" id="hashtag" placeholder="#ejemplo" maxlength="30" />
+        <button id="uploadButton" class="upload-btn">Subir</button>
+      </section>
+
+      <section class="filter-section">
+        <h3>🔍 Filtrar por hashtag</h3>
+        <input type="text" id="filterInput" placeholder="Escribe un hashtag para filtrar..." />
+      </section>
+
+      <section class="posts-section" id="posts"></section>
+    </section>
+  </main>
+</body>
+</html>

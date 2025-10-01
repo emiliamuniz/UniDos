@@ -1,0 +1,257 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* GENERAL */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.header {
+  width: 100%;
+  background-color: #1f1f1f;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  gap: 10px;
+}
+.logo img {
+  height: 35px;
+}
+.userr {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* espacio entre avatar y texto */
+  background: rgba(255, 255, 255, 0.05); /* fondo traslúcido sutil */
+  padding: 8px 14px;
+  border-radius: 50px; /* forma tipo píldora */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* sombra suave */
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* imagen circular */
+  object-fit: cover; /* recorte sin deformar */
+  border: 2px solid #fff; /* aro blanco */
+}
+
+.welcome {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+  color: #fff; /* texto claro */
+  white-space: nowrap; /* evita salto de línea */
+}
+
+
+.Titulo {
+font-size: 1.2rem;
+font-weight: 600;
+letter-spacing: 1px;
+color: #4a90e2;
+text-shadow: 0 2px 8px rgba(74,144,226,0.12);
+margin-left: 100px;
+flex: 1;
+}
+
+/* NAV */
+nav .nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+nav .nav-links li {
+  list-style: none;
+}
+
+nav .nav-links a {
+  color: #e0e0e0;
+  text-decoration: none;
+  padding: 5px 8px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+nav .nav-links a:hover {
+  background: #2a2a2a;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* MAIN */
+.main-container {
+  display: flex;
+  flex: 1;
+  margin-top: 65px;
+  min-height: calc(100vh - 65px);
+  gap: 10px;
+}
+
+/* MENU LATERAL */
+.menu-lateral {
+  width: 200px;
+  background: #1c1c1c;
+  padding: 15px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-lateral .menu-btn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  background: #2a2a2a;
+  color: #e0e0e0;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.menu-lateral .menu-btn:hover {
+  background: #4a90e2;
+}
+
+.menu-lateral button {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background: #2a2a2a;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.menu-lateral button:hover {
+  background: #4a90e2;
+}
+
+/* OCULTAR INPUT FILE */
+.file-input {
+  display: none;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  max-height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* UPLOAD SECTION */
+.upload-section,
+.filter-section {
+  background: #1e1e1e;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.upload-box {
+  margin-bottom: 8px;
+}
+
+.file-label {
+  padding: 6px 12px;
+  background: #4a90e2;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+textarea,
+input[type="text"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px;
+  border: none;
+  border-radius: 5px;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+textarea:focus,
+input[type="text"]:focus {
+  outline: 2px solid #4a90e2;
+}
+
+.upload-btn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: #4a90e2;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upload-btn:hover {
+  background: #3578c7;
+}
+
+/* POSTS */
+.posts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .main-container {
+    flex-direction: column;
+  }
+  .menu-lateral {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 8px;
+  }
+  .menu-lateral .menu-btn {
+    flex: 1;
+    margin-right: 5px;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  nav .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    background: #1f1f1f;
+    width: 200px;
+    padding: 10px;
+    gap: 8px;
+  }
+  nav .nav-links.show {
+    display: flex;
+  }
+}

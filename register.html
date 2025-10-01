@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniDos - Register</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="Logo2.0.png" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="Logo2.0.png" alt="Logo" />
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <form id="registerForm">
+      <h1>Registro</h1>
+
+      <div class="input-Box">
+        <label for="registerUsername">Usuario:</label>
+        <input type="text" id="registerUsername" required maxlength="15" minlength="4"/>
+        <span id="registerUsernameError" class="error"></span>
+      </div>
+
+      <div class="input-Box">
+        <label for="registerPassword">Contraseña:</label>
+        <input type="password" id="registerPassword" required maxlength="20" minlength="8"/>
+        <span id="registerPasswordError" class="error"></span>
+
+        <label for="registerConfirmPassword">Confirmar Contraseña:</label>
+        <input type="password" id="registerConfirmPassword" required maxlength="20" minlength="8"/>
+        <span id="registerConfirmPasswordError" class="error"></span>
+
+        <div class="show-password">
+          <input type="checkbox" id="togglePasswordRegister" />
+          <label for="togglePasswordRegister">Mostrar contraseña</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Registrarse</button>
+
+      <div class="register">
+        <p>¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
