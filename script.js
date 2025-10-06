@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (storedUser && storedUser.password === pass) {
                 alert("¡Inicio de sesión exitoso!");
-                window.location.href = "Page/home.html"; // Redirigir a home
+                window.location.href = "home.html"; // Redirigir a home
             } else {
                 showError("loginError", "Usuario o contraseña incorrectos.");
             }
@@ -163,4 +163,5 @@ const loginError = document.getElementById("loginError");
 const loginButton = document.querySelector("#loginForm button[type='submit']");
 if (loginError && loginButton) {
     loginButton.parentNode.insertBefore(loginError, loginButton);
+
 }
